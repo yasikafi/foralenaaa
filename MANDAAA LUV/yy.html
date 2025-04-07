@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Our Love Story</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background-color: #ffe6ec;
+        overflow-x: hidden;
+        color: white;
+      }
+
+      .navbar {
+        background-color: rgba(255, 192, 203, 0.25);
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 182, 193, 0.3);
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #ff8fb1;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        transition: 0.3s;
+      }
+
+      .nav-links a {
+        position: relative;
+        text-decoration: none;
+        color: white;
+        transition: color 0.3s;
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        left: 0;
+        bottom: -5px;
+        background-color: #ffb6c1;
+        transition: width 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        color: #ffb6c1;
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      .hero {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        text-align: center;
+        padding: 0 1rem;
+        padding-top: 5rem;
+        font-weight: bold;
+      }
+
+      .hero h1 {
+        font-size: 3rem;
+        color: white;
+        margin-bottom: 1rem;
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        text-shadow: 1px 1px 3px #00000050;
+      }
+
+      .hero a.button {
+        background-color: #ff69b4;
+        padding: 0.8rem 1.8rem;
+        border-radius: 30px;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        transition: background-color 0.3s ease;
+      }
+
+      .hero a.button:hover {
+        background-color: #ff85c1;
+      }
+
+      .heart {
+        position: absolute;
+        width: 21px;
+        height: 21px;
+        background: #ff4f81;
+        transform: rotate(45deg);
+        animation: float linear infinite;
+        opacity: 0.7;
+      }
+
+      .heart::before,
+      .heart::after {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: #ff4f81;
+        border-radius: 50%;
+      }
+
+      .heart::before {
+        top: -10px;
+        left: 0;
+      }
+
+      .heart::after {
+        left: -10px;
+        top: 0;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0) rotate(45deg);
+          opacity: 0.8;
+        }
+        100% {
+          transform: translateY(-120vh) rotate(45deg);
+          opacity: 0;
+        }
+      }
+
+      .memories-section {
+        background-color: #fff0f5;
+        padding: 5rem 2rem;
+        text-align: center;
+        color: #ff4f81;
+      }
+
+      .memories-section h2 {
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        position: relative;
+      }
+
+      .memory-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .memory-card {
+        background-color: #ffcce0;
+        border-radius: 15px;
+        padding: 1.5rem;
+        width: 280px;
+        box-shadow: 0 8px 16px rgba(255, 105, 180, 0.2);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .memory-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 12px 20px rgba(255, 105, 180, 0.4);
+      }
+
+      /* Added image container with 4:3 aspect ratio */
+      .image-container {
+        width: 100%;
+        padding-top: 75%; /* 4:3 Aspect Ratio (3/4 = 0.75 = 75%) */
+        position: relative;
+        overflow: hidden;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+      }
+
+      .memory-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .memory-emoji {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .memory-title {
+        font-weight: bold;
+        font-size: 1.2rem;
+        color: #d6336c;
+        margin: 0.5rem 0;
+      }
+
+      .memory-date {
+        font-size: 0.9rem;
+        color: #9e2a51;
+      }
+
+      .memory-desc {
+        font-size: 0.95rem;
+        color: #5a001f;
+        margin-top: 0.5rem;
+      }
+
+      .journey-section {
+        padding: 5rem 2rem;
+        background-color: #ffe6ec;
+        position: relative;
+      }
+
+      .journey-section h2 {
+        color: #ff4f81;
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 3rem;
+      }
+
+      .timeline {
+        position: relative;
+        margin: auto;
+        padding: 2rem 0;
+        max-width: 800px;
+      }
+
+      .timeline::after {
+        content: "";
+        position: absolute;
+        width: 4px;
+        background-color: #ff9dbb;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        margin-left: -2px;
+      }
+
+      .journey-item {
+        padding: 1.5rem 2rem;
+        position: relative;
+        background-color: #ffcce0;
+        border-radius: 15px;
+        width: 45%;
+        box-shadow: 0 8px 16px rgba(255, 105, 180, 0.2);
+        margin-bottom: 3rem;
+      }
+
+      .journey-item.left {
+        left: 0;
+      }
+
+      .journey-item.right {
+        left: 55%;
+      }
+
+      .journey-date {
+        font-weight: bold;
+        color: #d6336c;
+        margin-bottom: 0.5rem;
+      }
+
+      .journey-title {
+        font-size: 1.2rem;
+        color: #9e2a51;
+        margin-bottom: 0.5rem;
+      }
+
+      .journey-desc {
+        color: #5a001f;
+        font-size: 0.95rem;
+      }
+
+      /* Updated floating photo styles with 4:3 aspect ratio */
+      .floating-photo-container {
+        position: absolute;
+        width: 100px;
+        height: 75px; /* 4:3 ratio */
+        overflow: hidden;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+        z-index: 10;
+      }
+
+      .floating-photo {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* Add hover effect to make photos slightly bigger */
+      .floating-photo-container:hover {
+        transform: scale(1.1) rotate(0deg) !important;
+        z-index: 20;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      audio {
+        display: none;
+      }
+
+      .secret-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #ff85c1;
+        color: white;
+        font-size: 1.5rem;
+        padding: 0.7rem 1rem;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        z-index: 999;
+        transition: transform 0.3s ease;
+      }
+
+      .secret-button:hover {
+        transform: scale(1.2);
+      }
+
+      .secret-message {
+        display: none;
+        position: fixed;
+        bottom: 90px;
+        right: 20px;
+        background-color: #fff0f5;
+        color: #d6336c;
+        padding: 1rem 1.5rem;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        font-size: 1rem;
+        z-index: 1000;
+        animation: fadeIn 0.3s ease;
+      }
+
+      .secret-message span {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        cursor: pointer;
+        color: #9e2a51;
+        font-size: 1.2rem;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Tambahan CSS untuk section baru */
+      .love-note-section {
+        background-color: #fff0f5;
+        padding: 5rem 2rem;
+        color: #ff4f81;
+        text-align: center;
+      }
+
+      .love-note-container {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: #ffcce0;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 8px 16px rgba(255, 105, 180, 0.2);
+      }
+
+      .love-note-section h2 {
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .love-note-content {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        text-align: left;
+      }
+
+      .songs-section {
+        background-color: #ffe6ec;
+        padding: 5rem 2rem;
+        color: #ff4f81;
+        text-align: center;
+      }
+
+      .songs-section h2 {
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .song-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .song-item {
+        background-color: #ffcce0;
+        padding: 1rem 1.5rem;
+        border-radius: 30px;
+        transition: transform 0.3s ease;
+      }
+
+      .song-item a {
+        color: #d6336c;
+        text-decoration: none;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .song-item:hover {
+        transform: scale(1.05);
+        background-color: #ffb6c1;
+      }
+
+      .song-item:hover a {
+        color: #9e2a51;
+      }
+
+      .spotify-icon {
+        font-size: 1.2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Music -->
+    <audio autoplay loop>
+      <source
+        src="Beauty and the Beast (Piano Cover by Riyandi Kusuma).mp3"
+        type="audio/mp3"
+      />
+    </audio>
+
+    <!-- Navbar -->
+    <div class="navbar">
+      <div class="logo">Our Love Story</div>
+      <div class="nav-links">
+        <a href="#our-memories">Our Memories</a>
+        <a href="#our-journey">Our Journey</a>
+        <a href="#love-note">Love Note</a>
+        <a href="#our-songs">Our Songs</a>
+      </div>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero">
+      <h1>For Alenaa < 𝟑</h1>
+      <p>even a thousand words could never express how deeply I love you.</p>
+      <a href="#our-memories" class="button">See our memories</a>
+
+      <!-- Floating Hearts -->
+      <div
+        class="heart"
+        style="
+          top: 80%;
+          left: 10%;
+          animation-duration: 12s;
+          animation-delay: 1s;
+        "
+      ></div>
+      <div
+        class="heart"
+        style="
+          top: 90%;
+          left: 25%;
+          animation-duration: 10s;
+          animation-delay: 3s;
+        "
+      ></div>
+      <div
+        class="heart"
+        style="
+          top: 85%;
+          left: 40%;
+          animation-duration: 14s;
+          animation-delay: 2s;
+        "
+      ></div>
+      <div
+        class="heart"
+        style="
+          top: 95%;
+          left: 60%;
+          animation-duration: 11s;
+          animation-delay: 4s;
+        "
+      ></div>
+      <div
+        class="heart"
+        style="
+          top: 92%;
+          left: 75%;
+          animation-duration: 13s;
+          animation-delay: 1.5s;
+        "
+      ></div>
+      <div
+        class="heart"
+        style="
+          top: 88%;
+          left: 90%;
+          animation-duration: 9s;
+          animation-delay: 2.5s;
+        "
+      ></div>
+      <div
+        class="heart"
+        style="
+          top: 100%;
+          left: 50%;
+          animation-duration: 15s;
+          animation-delay: 0s;
+        "
+      ></div>
+    </section>
+
+    <!-- Our Memories -->
+    <section id="our-memories" class="memories-section">
+      <h2>Our Memories ‧₊˚ ☁️⋅♡🪐༘⋆</h2>
+      <div class="memory-grid">
+        <div class="memory-card">
+          <div class="image-container">
+            <img
+              src="gambar/tahunbaru.png"
+              alt="Memory 1"
+              class="memory-image"
+            />
+          </div>
+          <h3 class="memory-title">Tahun Baru Bareng</h3>
+          <p class="memory-desc">
+            Momen tahun baruan barengg salah satu momen favorit akuuuuu!!!
+          </p>
+        </div>
+        <div class="memory-card">
+          <div class="image-container">
+            <img
+              src="gambar/valentine.png"
+              alt="Memory 2"
+              class="memory-image"
+            />
+          </div>
+          <h3 class="memory-title">Valentine's Day</h3>
+          <p class="memory-desc">
+            Disini jugaa seruuww aku ngasih kamu bungaaa, bunga nya lucuuu kaya
+            kamu <3
+          </p>
+        </div>
+        <div class="memory-card">
+          <div class="image-container">
+            <img
+              src="gambar/ultahmanda.png"
+              alt="Memory 3"
+              class="memory-image"
+            />
+          </div>
+          <h3 class="memory-title">Ulang Tahun Kamu!</h3>
+          <p class="memory-desc">
+            ummmmm.... disini kita cuman nonton film sihhh, soalnya hadiah nya
+            udah duluann. tapi oke tetep seruuww
+          </p>
+        </div>
+        <div class="memory-card">
+          <div class="image-container">
+            <img
+              src="gambar/ultahyasi.png"
+              alt="Memory 4"
+              class="memory-image"
+            />
+          </div>
+          <h3 class="memory-title">Ulang Tahun Aku!</h3>
+          <p class="memory-desc">
+            Di momen ini aku super duper kaget sama tingkah kamu, tapi akuuu
+            sukaaa bangett kamuu lucuu dan wow luar biasa menyiapkan semua nya,
+            i loveee uu sayaanggg :*
+          </p>
+        </div>
+        <div class="memory-card">
+          <div class="image-container">
+            <img src="gambar/gembuzz.png" alt="Memory 5" class="memory-image" />
+          </div>
+          <h3 class="memory-title">Mam Pak Gembuzzz</h3>
+          <p class="memory-desc">
+            PAK GEMBUZZZZZZZ, walaupun mama nya cuman pak gembuz tapi enakk
+            bangettt
+          </p>
+        </div>
+        <div class="memory-card">
+          <div class="image-container">
+            <img
+              src="gambar/photoboth.png"
+              alt="Memory 6"
+              class="memory-image"
+            />
+          </div>
+          <h3 class="memory-title">Photo Both</h3>
+          <p class="memory-desc">
+            Ini photoboth GEMEESS BANGETTT buremm sihhh, tapi itu yang bikin
+            GEMEESSS
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Our Journey -->
+    <section id="our-journey" class="journey-section">
+      <h2>Our Journey °❀⋆.ೃ࿔*:･</h2>
+      <div class="timeline">
+        <div class="journey-item left">
+          <div class="journey-date">07 Dec 2020</div>
+          <div class="journey-title">Pertama Kali Kenal</div>
+          <div class="journey-desc">
+            Pertama kali aku kenal kamuu, aku mau chatannn tapi maluu buat
+            mulaii hehehe :D
+          </div>
+        </div>
+        <div class="journey-item right">
+          <div class="journey-date">28 Aug 2024</div>
+          <div class="journey-title">Pertama Kali Ketemu</div>
+          <div class="journey-desc">
+            Jujur sangat amat diem, malu, awkward, dan bingung mau ngomong apa.
+          </div>
+        </div>
+        <div class="journey-item left">
+          <div class="journey-date">30 Sep 2024</div>
+          <div class="journey-title">Aku Nembak Kamu</div>
+          <div class="journey-desc">
+            Di BandarKopi aku awalnya gugup, tapi pd aja lah, eh kamu mauu >w<
+          </div>
+        </div>
+        <div class="journey-item right">
+          <div class="journey-date">08 Oct 2024</div>
+          <div class="journey-title">First Date</div>
+          <div class="journey-desc">
+            Kita nontonn kuasa gelap. kamu penakut jadi tuutp mata teruss :P
+          </div>
+        </div>
+        <div class="journey-item left">
+          <div class="journey-date">31 Dec 2024</div>
+          <div class="journey-title">Pertama Kali Aku Ke Rumah Kamu</div>
+          <div class="journey-desc">
+            Kita tahun baruan barenggg, and makan makan enak di rumah kamu.
+          </div>
+        </div>
+        <div class="journey-item right">
+          <div class="journey-date">1 Apr 2025</div>
+          <div class="journey-title">Lebaran Di Kamu</div>
+          <div class="journey-desc">
+            Aku lebaran di kamuuu, walaupun keujanan dan baju aku basah huhu,
+            tapi seruuww mamm opor
+          </div>
+        </div>
+        <div class="journey-item left">
+          <div class="journey-date">08 Apr 2025</div>
+          <div class="journey-title">Dan ini kita sekarangg</div>
+          <div class="journey-desc">
+            Akuu yang masih dan selalu sayang sama kamuu, dan semoga kita bisa
+            bareng teruss
+          </div>
+        </div>
+      </div>
+
+      <!-- Updated Floating Photos with containers aligned with journey items -->
+      <div
+        class="floating-photo-container"
+        style="top: 10%; left: 20%; transform: rotate(-8deg)"
+      >
+        <img src="gambar2/firstknow.png" class="floating-photo" />
+      </div>
+      <div
+        class="floating-photo-container"
+        style="top: 25%; right: 18%; transform: rotate(10deg)"
+      >
+        <img src="gambar2/firstmeet.png" class="floating-photo" />
+      </div>
+      <div
+        class="floating-photo-container"
+        style="top: 40%; left: 22%; transform: rotate(-12deg)"
+      >
+        <img src="gambar2/dor.png" class="floating-photo" />
+      </div>
+      <div
+        class="floating-photo-container"
+        style="top: 55%; right: 20%; transform: rotate(7deg)"
+      >
+        <img src="gambar2/firstdate.png" class="floating-photo" />
+      </div>
+      <div
+        class="floating-photo-container"
+        style="top: 70%; left: 18%; transform: rotate(-9deg)"
+      >
+        <img src="gambar2/firstkerumahkamu.png" class="floating-photo" />
+      </div>
+      <div
+        class="floating-photo-container"
+        style="top: 85%; right: 22%; transform: rotate(11deg)"
+      >
+        <img src="gambar2/lebaran.png" class="floating-photo" />
+      </div>
+      <div
+        class="floating-photo-container"
+        style="top: 95%; left: 23%; transform: rotate(-6deg)"
+      >
+        <img src="gambar2/now.png" class="floating-photo" />
+      </div>
+    </section>
+
+    <!-- Love Note Section -->
+    <section id="love-note" class="love-note-section">
+      <h2>Love Note ⋆ ˚｡⋆୨♡୧⋆｡˚ ⋆</h2>
+      <div class="love-note-container">
+        <div class="love-note-content">
+          <p>Dear Alenaa,</p>
+          <p>
+            Every day with you is a new page in the most beautiful story I've
+            ever written. You make the world brighter with your smile, warmer
+            with your hugs, and more meaningful with your love.
+          </p>
+          <p>
+            I'm really so grateful to have you. You know, like I once said — the
+            very first time I saw you, I already wanted to be with you right
+            then and there. But I couldn't, because at that time… I wasn't ready
+            yet.
+          </p>
+          <p>
+            My promise to you: I'll always try to be the best for you, stand by
+            your side through every step, and love you more than words could
+            ever express.
+          </p>
+          <p>Forever yours, ⋆˙⟡♡</p>
+          <p style="text-align: right; font-weight: 600; margin-top: 1rem">
+            Kayass
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Our Songs Section -->
+    <section id="our-songs" class="songs-section">
+      <h2>Our Songs ♫ ♪ ♩ ♬</h2>
+      <div class="song-list">
+        <div class="song-item">
+          <a
+            href="https://open.spotify.com/track/0huV20ZR9HzTmBtXeYpEwD?si=b0faadb7b94f4b73"
+            target="_blank"
+          >
+            <span class="spotify-icon">♪</span> Ah - Nadin Amizah
+          </a>
+        </div>
+        <div class="song-item">
+          <a
+            href="https://open.spotify.com/track/47rzxY9wSpomHE1gT94jIT?si=a093b21c112b45a0"
+            target="_blank"
+          >
+            <span class="spotify-icon">♪</span> Right There - Ariana Grande, Big
+            Sean
+          </a>
+        </div>
+        <div class="song-item">
+          <a
+            href="https://open.spotify.com/track/0T5iIrXA4p5GsubkhuBIKV?si=1239d075b2eb4544"
+            target="_blank"
+          >
+            <span class="spotify-icon">♪</span> Until I Found You - Stephen
+            Sanchez
+          </a>
+        </div>
+        <div class="song-item">
+          <a
+            href="https://open.spotify.com/track/1wb4P4F0sxAQ2KXrRvsx6n?si=f889c0eea2f04208"
+            target="_blank"
+          >
+            <span class="spotify-icon">♪</span> You're Still the One - Shania
+            Twain
+          </a>
+        </div>
+        <div class="song-item">
+          <a
+            href="https://open.spotify.com/track/7wMPhUSe6CZga1vOMpLTJP?si=351b9d119b2f4dc7"
+            target="_blank"
+          >
+            <span class="spotify-icon">♪</span> Beauty and the Beast - Ariana
+            Grande & John Legend
+          </a>
+        </div>
+        <div class="song-item">
+          <a
+            href="https://open.spotify.com/track/7aSyG7cskkG3zhfO2JLxq3?si=bee025281cdc4a9f"
+            target="_blank"
+          >
+            <span class="spotify-icon">♪</span> Happiness - Rex Orange County
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer
+      style="
+        background-color: #ffcce0;
+        padding: 2rem 1rem;
+        text-align: center;
+        color: #9e2a51;
+        font-family: 'Segoe UI', sans-serif;
+        box-shadow: 0 -4px 10px rgba(255, 105, 180, 0.2);
+      "
+    >
+      <p style="font-size: 1.2rem; margin-bottom: 0.5rem">
+        Thank you for being the most beautiful part of my life 💗
+      </p>
+      <p style="font-size: 1rem">
+        by <strong>kayass</strong> for
+        <strong>alenaa</strong>
+      </p>
+      <div style="margin-top: 1rem; font-size: 1.5rem">˗ˏˋ ♡ ˎˊ˗</div>
+    </footer>
+
+    <!-- Secret Message Button -->
+    <div class="secret-button" onclick="toggleSecret()">💌</div>
+    <div class="secret-message" id="secretMessage">
+      <span onclick="toggleSecret()">×</span>
+      You're the most beautiful chapter in my life — and I'll read you over and
+      over again ♡︎
+    </div>
+
+    <script>
+      function toggleSecret() {
+        const msg = document.getElementById("secretMessage");
+        msg.style.display = msg.style.display === "block" ? "none" : "block";
+      }
+    </script>
+  </body>
+</html>
